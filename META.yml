@@ -1,0 +1,36 @@
+---
+name: CPAN-Testers-Config
+version: 0.001
+author:
+  - 'David Golden <dagolden@cpan.org>'
+abstract: Interface to CPAN Testers configuration
+license: apache
+resources:
+  bugtracker: http://rt.cpan.org/NoAuth/Bugs.html?Dist=CPAN-Testers-Config
+  repository: http://github.com/dagolden/cpan-testers-config/
+requires:
+  Carp: 0
+  Data::Dumper: 0
+  File::Basename: 0
+  File::HomeDir: 0.86
+  File::Path: 0
+  File::Spec: 0.86
+  perl: 5.006
+build_requires:
+  File::Find: 0
+  File::Temp: 0.16
+  Test::More: 0.62
+provides:
+  CPAN::Testers::Config:
+    file: lib/CPAN/Testers/Config.pm
+    version: 0.001
+generated_by: Module::Build version 0.33
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+no_index:
+  directory:
+    - examples
+    - inc
+    - t
+    - xt

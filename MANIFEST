@@ -19,3 +19,5 @@ xt/pod-coverage.t
 xt/pod-format.t
 xt/spelling.t
 xt/stopwords.txt
+Makefile.PL
+META.yml
