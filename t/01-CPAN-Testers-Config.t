@@ -6,26 +6,30 @@
 
 use strict;
 use warnings;
-use File::Spec;
+use File::Temp ();
 use Test::More;
 
-plan tests => 11;
+plan tests => 13;
 
 my ($config);
+my %data = ( global => { profile => 'profile.json' } );
 
 #--------------------------------------------------------------------------#
 
 require_ok( 'CPAN::Testers::Config' );
 
-ok( local $ENV{HOME} = File::Spec->catdir(qw/t home fake/),
-  "Setting \$ENV{HOME} for testing"
+ok( local $ENV{HOME} = File::Temp->newdir, 
+  "setting \$ENV{HOME} to temp directory for testing"
 );
 
 #--------------------------------------------------------------------------#
 
-{
+SKIP: {
+  eval { CPAN::Testers::Config->new(%data)->write };
+  is( $@, '', "wrote config file without error" ) 
+    or skip "no config to read", 3;
   $config = eval { CPAN::Testers::Config->read };
-  is( $@, '', "read config file" );
+  is( $@, '', "read config file without error" );
   isa_ok( $config, 'CPAN::Testers::Config' );
   is( $config->{global}{profile}, 'profile.json', "found 'profile' in [global]" );
 
@@ -35,7 +39,7 @@ ok( local $ENV{HOME} = File::Spec->catdir(qw/t home fake/),
 
 {
   ok( local $ENV{CPAN_TESTERS_CONFIG} = 'bogusfile',
-    "Setting CPAN_TESTERS_CONFIG to non-existant file"
+    "setting CPAN_TESTERS_CONFIG to non-existant file"
   );
   $config = eval { CPAN::Testers::Config->read };
   like( $@, qr/Error reading 'bogusfile': No such file or directory/, 
@@ -45,13 +49,16 @@ ok( local $ENV{HOME} = File::Spec->catdir(qw/t home fake/),
 
 #--------------------------------------------------------------------------#
 
-{
-  ok( local $ENV{CPAN_TESTERS_DIR} = File::Spec->catdir(qw/t home custom/),
-    "Setting CPAN_TESTERS_DIR to custom config dir"
+SKIP: {
+  ok( local $ENV{CPAN_TESTERS_DIR} = File::Temp->newdir,
+    "setting CPAN_TESTERS_DIR to new temp config directory"
   );
+  eval { CPAN::Testers::Config->new(%data)->write };
+  is( $@, '', "wrote config file without error" ) 
+    or skip "no config to read", 3;
   $config = eval { CPAN::Testers::Config->read };
   is( $@, '', "read config file" );
   isa_ok( $config, 'CPAN::Testers::Config' );
-  is( $config->{global}{profile}, 'custom.json', "found 'profile' in [global]" );
+  is( $config->{global}{profile}, 'profile.json', "found 'profile' in [global]" );
 }
 
