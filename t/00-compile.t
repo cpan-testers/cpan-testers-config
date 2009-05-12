@@ -23,9 +23,10 @@ else {
 
 my $null = File::Spec->devnull;
 
+my @errors;
 for my $file ( @pms ) {
   system("$^X -c $file > $null 2>&1");
-  ok( $? == 0, "compiled $file" );
+  ok( $? == 0, "compiled $file" ) or push @errors, $file;
 }
-
+BAIL_OUT("Compilation error(s): @errors") if @errors;
 
