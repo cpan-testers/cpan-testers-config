@@ -9,6 +9,7 @@ MANIFEST
 MANIFEST.SKIP
 README
 t/00-compile.t
+t/01-CPAN-Testers-Config.t
 Todo
 xt/critic.t
 xt/kwalitee.t
