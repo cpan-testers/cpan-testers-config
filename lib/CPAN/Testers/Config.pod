@@ -4,7 +4,7 @@
 
 =head1 NAME
 
-CPAN::Testers::Config - Interface to CPAN Testers configuration
+CPAN::Testers::Config - Manage CPAN Testers configuration data
 
 =head1 VERSION
 
@@ -13,10 +13,82 @@ This documentation describes version 0.001.
 =head1 SYNOPSIS
 
      use CPAN::Testers::Config;
+ 
+     $config = CPAN::Testers::Config->read;
+     $config->{global}{profile} = 'my_profile.json';
+     $config->write;
 
 =head1 DESCRIPTION
 
+CPAN::Testers::Config provides a very simple interface to load and save CPAN
+Testers configuration data using only core Perl modules.
+
+By default, configuration is stored in '.cpantestersE<sol>config.pl' in the user's
+home directory.  Data is serialized using L<Data::Dumper>.
+
+=head1 SCHEMA
+
+No formal schema has been defined yet for CPAN Testers configuration and thus there
+is no validation by this module.
+
+Configuration is provided as a hash of hashes.  The top-level key C<<< global >>> is
+reserved for data that will be used by multiple CPAN Testers modules.
+Module-specific configuration data should be stored under a top-level key
+corresponding to the module name.  For example:
+
+   # global
+   $metabase_profile = $config->{global}{profile};
+ 
+   # module-specific
+   $config->{'CPAN::Testers::Client'}{send_duplicates} = 1;
+
+ExistingE<sol>planned global configuration keys include:
+
+=over
+
+=item *
+
+C<<< profile >>> -- path to a filename containing a Metabase user profile; if not an
+absolute path, it should be treated as a path relative to the CPAN Testers 
+configuration directory
+
+=back
+
 =head1 USAGE
+
+=head2 new
+
+   $config = CPAN::Testers::Config->new( %data );
+
+Creates and returns a new configuration object with optional starting data or dies.
+
+=head2 read
+
+   $config = CPAN::Tester::Config->read;
+   # ... modify $config ...
+   $config->read; # reload
+
+Returns a configuration object with data loaded from the configuration file or dies.
+May be called either as a class method or an object method.
+
+=head2 write
+
+   $config->write;
+
+Serializes a configuration object to the the configuration file or dies.
+Returns the object as a convenience on success.
+
+=head1 ENVIRONMENT
+
+=head2 CPAN_TESTERS_DIR
+
+Specifies an alternate directory to search for CPAN Testers configuration files
+instead of the default '.cpantesters' in the user's home directory.
+
+=head2 CPAN_TESTERS_CONFIG
+
+Specifies an alternate file for configuration data instead of 'config.pl' in 
+the default or alternate configuration directory.
 
 =head1 BUGS
 
@@ -25,8 +97,6 @@ web interface at L<http://rt.cpan.org/Dist/Display.html?Queue=CPAN-Testers-Confi
 
 When submitting a bug or request, please include a test-file or a patch to an
 existing test-file that illustrates the bug or desired feature.
-
-=head1 SEE ALSO
 
 =head1 AUTHOR
 
