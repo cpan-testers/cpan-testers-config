@@ -61,6 +61,16 @@ USAGE
     Serializes a configuration object to the the configuration file or dies.
     Returns the object as a convenience on success.
 
+  config_dir
+       $dir = CPAN::Testers::Config->config_dir;
+
+    Return path to configuration directory. See "ENVIRONMENT".
+
+  config_file
+       $file = CPAN::Testers::Config->config_file;
+
+    Return path to configuration file. See "ENVIRONMENT".
+
 ENVIRONMENT
   CPAN_TESTERS_DIR
     Specifies an alternate directory to search for CPAN Testers

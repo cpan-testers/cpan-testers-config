@@ -37,7 +37,7 @@ sub new {
 sub read {
   my ($self, $file) = @_;
   $self = $self->new unless ref $self; # if called as class method
-  $file = $self->_config_file unless defined $file;
+  $file = $self->config_file unless defined $file;
 
   open my $fh, "<", $file or Carp::confess("Error reading '$file': $!");
   my $data = eval do {local $/; <$fh>};
@@ -58,7 +58,7 @@ sub read {
 sub write {
   my ($self, $file) = @_;
   $self = $self->new unless ref $self; # class method will write empty file
-  $file = $self->_config_file unless defined $file;
+  $file = $self->config_file unless defined $file;
 
   File::Path::mkpath( File::Basename::dirname( $file ) );
   open my $fh, ">", $file or Carp::confess("Error writing '$file': $!");
@@ -68,14 +68,26 @@ sub write {
 }
 
 #--------------------------------------------------------------------------#
-# _config_file -- find config file, given %ENV overrides
+# config_dir -- get config directory name, given %ENV overrides
 #--------------------------------------------------------------------------#
 
-sub _config_file {
-  my $config_dir  = $ENV{CPAN_TESTERS_DIR} 
-                  ||  File::Spec->catdir(File::HomeDir->my_home, '.cpantesters');
-  return $ENV{CPAN_TESTERS_CONFIG} || 
-         File::Spec->catfile($config_dir, 'config.pl');
+sub config_dir {
+  my ($self) = @_;
+  return  $ENV{CPAN_TESTERS_DIR} 
+      ||  File::Spec->catdir(File::HomeDir->my_home, '.cpantesters');
+}
+
+#--------------------------------------------------------------------------#
+# config_file -- get config file name, given %ENV overrides
+#--------------------------------------------------------------------------#
+
+sub config_file {
+  my ($self) = @_;
+  my $path = $ENV{CPAN_TESTERS_CONFIG} || 'config.pl';
+  my $file = File::Spec->file_name_is_absolute($path) 
+          ? $path 
+          : File::Spec->catfile($self->config_dir, $path) ;
+  return $file
 }
 
 #--------------------------------------------------------------------------#
@@ -165,6 +177,18 @@ May be called either as a class method or an object method.
 
 Serializes a configuration object to the the configuration file or dies.
 Returns the object as a convenience on success.
+
+== config_dir
+
+  $dir = CPAN::Testers::Config->config_dir;
+
+Return path to configuration directory.  See [/ENVIRONMENT].
+
+== config_file
+
+  $file = CPAN::Testers::Config->config_file;
+
+Return path to configuration file.  See [/ENVIRONMENT].
 
 = ENVIRONMENT
 

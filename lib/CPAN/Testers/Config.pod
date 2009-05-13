@@ -78,6 +78,18 @@ May be called either as a class method or an object method.
 Serializes a configuration object to the the configuration file or dies.
 Returns the object as a convenience on success.
 
+=head2 config_dir
+
+   $dir = CPAN::Testers::Config->config_dir;
+
+Return path to configuration directory.  See L</ENVIRONMENT>.
+
+=head2 config_file
+
+   $file = CPAN::Testers::Config->config_file;
+
+Return path to configuration file.  See L</ENVIRONMENT>.
+
 =head1 ENVIRONMENT
 
 =head2 CPAN_TESTERS_DIR
