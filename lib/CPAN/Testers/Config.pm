@@ -143,9 +143,11 @@ Proposed new global keys should be sent to the maintainer(s) of this module
 and/or the [CPAN Testers Discussion|https://www.socialtext.net/perl5/index.cgi?cpan_testers]
 mailing list.
 
-=== {profile} -- path to a filename containing a CPAN Testers 2.0 user profile;
-if not an absolute path, it should be treated as a path relative to the CPAN
-Testers configuration directory
+=== {profile}
+
+A path to a filename containing a CPAN Testers 2.0 user profile; if not an
+absolute path, it should be treated as a path relative to the CPAN Testers
+configuration directory
 
 = USAGE
 
