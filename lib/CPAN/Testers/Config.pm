@@ -96,6 +96,8 @@ sub _data_dump {
 
 1;
 
+__END__
+
 =begin wikidoc
 
 = SYNOPSIS
@@ -116,11 +118,14 @@ home directory.  Data is serialized using [Data::Dumper].
 
 = SCHEMA
 
-No formal schema has been defined yet for CPAN Testers configuration and thus there
-is no validation by this module.
+Configuration is provided as a hash of hashes.  No formal schema has been
+defined yet for CPAN Testers configuration and thus there is no validation by
+this module.
 
-Configuration is provided as a hash of hashes.  The top-level key {global} is
-reserved for data that will be used by multiple CPAN Testers modules.
+The top-level key {global} is reserved for data that will be used by multiple
+CPAN Testers modules.  Only keys listed in the [/Global Configuration Keys]
+section should be used in the {global} hash.
+
 Module-specific configuration data should be stored under a top-level key
 corresponding to the module name.  For example:
 
@@ -130,11 +135,17 @@ corresponding to the module name.  For example:
   # module-specific
   $config->{'CPAN::Testers::Client'}{send_duplicates} = 1;
 
-Existing/planned global configuration keys include:
+== Global Configuration Keys
 
-* {profile} -- path to a filename containing a Metabase user profile; if not an
-absolute path, it should be treated as a path relative to the CPAN Testers 
-configuration directory
+The following key(s) are defined. No other keys should be added or expected.
+
+Proposed new global keys should be sent to the maintainer(s) of this module
+and/or the [CPAN Testers Discussion|https://www.socialtext.net/perl5/index.cgi?cpan_testers]
+mailing list.
+
+=== {profile} -- path to a filename containing a CPAN Testers 2.0 user profile;
+if not an absolute path, it should be treated as a path relative to the CPAN
+Testers configuration directory
 
 = USAGE
 
@@ -142,7 +153,8 @@ configuration directory
 
   $config = CPAN::Testers::Config->new( %data );
 
-Creates and returns a new configuration object with optional starting data or dies.
+Creates and returns a new configuration object with optional starting data or
+dies.
 
 == read
 
@@ -150,8 +162,8 @@ Creates and returns a new configuration object with optional starting data or di
   # ... modify $config ...
   $config->read; # reload
 
-Returns a configuration object with data loaded from the configuration file or dies.
-May be called either as a class method or an object method.
+Returns a configuration object with data loaded from the configuration file or
+dies.  May be called either as a class method or an object method.
 
 == write
 
@@ -164,13 +176,13 @@ Returns the object as a convenience on success.
 
   $dir = CPAN::Testers::Config->config_dir;
 
-Return path to configuration directory.  See [/ENVIRONMENT].
+Returns a path to the CPAN Testers configuration directory.  See [/ENVIRONMENT].
 
 == config_file
 
   $file = CPAN::Testers::Config->config_file;
 
-Return path to configuration file.  See [/ENVIRONMENT].
+Returns a path to the CPAN Testesr configuration file.  See [/ENVIRONMENT].
 
 = ENVIRONMENT
 
@@ -181,7 +193,7 @@ instead of the default '.cpantesters' in the user's home directory.
 
 == CPAN_TESTERS_CONFIG
 
-Specifies an alternate file for configuration data instead of 'config.pl' in 
+Specifies an alternate file for configuration data instead of 'config.pl' in
 the default or alternate configuration directory.
 
 =end wikidoc
