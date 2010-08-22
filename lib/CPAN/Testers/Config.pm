@@ -32,7 +32,7 @@ sub read {
   $file = $self->config_file unless defined $file;
 
   open my $fh, "<", $file or Carp::confess("Error reading '$file': $!");
-  my $data = eval do {local $/; <$fh>};
+  my $data = eval do {local $/; <$fh>}; ## no critic
   if ( ref $data eq 'HASH' ) {
     %$self = %$data;
   }
