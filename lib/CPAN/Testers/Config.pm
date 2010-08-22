@@ -65,7 +65,7 @@ sub write {
 
 sub config_dir {
   my ($self) = @_;
-  return  $ENV{CPAN_TESTERS_DIR} 
+  return  $ENV{CPAN_TESTERS_DIR}
       ||  File::Spec->catdir(File::HomeDir->my_home, '.cpantesters');
 }
 
@@ -76,9 +76,9 @@ sub config_dir {
 sub config_file {
   my ($self) = @_;
   my $path = $ENV{CPAN_TESTERS_CONFIG} || 'config.pl';
-  my $file = File::Spec->file_name_is_absolute($path) 
-          ? $path 
-          : File::Spec->catfile($self->config_dir, $path) ;
+  my $file = File::Spec->file_name_is_absolute($path)
+           ? $path
+           : File::Spec->catfile($self->config_dir, $path) ;
   return $file
 }
 
