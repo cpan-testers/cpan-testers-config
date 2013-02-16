@@ -3,6 +3,7 @@ use strict;
 use warnings;
 package CPAN::Testers::Config;
 # ABSTRACT: Manage CPAN Testers configuration data
+# VERSION
 
 use Carp            ();
 use Data::Dumper    ();
@@ -184,7 +185,7 @@ Returns a path to the CPAN Testers configuration directory.  See [/ENVIRONMENT].
 
   $file = CPAN::Testers::Config->config_file;
 
-Returns a path to the CPAN Testesr configuration file.  See [/ENVIRONMENT].
+Returns a path to the CPAN Testers configuration file.  See [/ENVIRONMENT].
 
 = ENVIRONMENT
 
