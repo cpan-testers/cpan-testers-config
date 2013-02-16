@@ -2,6 +2,8 @@ Revision history for CPAN-Testers-Config
 
 {{ $NEXT }}
 
+0.002     2013-02-16 11:46:20 America/New_York
+
     [FIXED]
 
     - Fixed tests for bleadperl
