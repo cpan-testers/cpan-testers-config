@@ -12,7 +12,8 @@ my %data = ( global => { profile => 'profile.json' } );
 
 require_ok( 'CPAN::Testers::Config' );
 
-ok( local $ENV{HOME} = File::Temp->newdir,
+my $temp_home = File::Temp->newdir;
+ok( local $ENV{HOME} = $temp_home,
   "setting \$ENV{HOME} to temp directory for testing"
 );
 is( CPAN::Testers::Config->config_dir,
